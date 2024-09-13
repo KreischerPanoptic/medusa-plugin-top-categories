@@ -169,6 +169,14 @@ const CategoryEditModal = ({
     );
   };
 
+  const handlerSanitizeReturn = (value: string): string => {
+    const transliterated = translit(value)
+    return transliterated
+        .replace(/[^a-zA-Z0-9 ]/g, "")
+        .replace(/ /g, "-")
+        .toLowerCase()
+  };
+
   const onReset = () => {
     form.reset(getDefaultValues(category, createNew));
     onClose();
@@ -338,7 +346,7 @@ const CategoryEditModal = ({
                   }
                   onFocus={(event) => {
                     if (event.currentTarget.value === "") {
-                      event.currentTarget.value = form.getValues().name;
+                      event.currentTarget.value = handlerSanitizeReturn(form.getValues().name);
                       handlerSanitize(form.getValues().name);
                     }
                   }}

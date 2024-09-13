@@ -2,6 +2,7 @@ import type {
     MedusaRequest, 
     MedusaResponse,
     ProductCategoryService,
+    ProductService,
     ProductCategory
 } from "@medusajs/medusa"
 import { MedusaError } from "@medusajs/utils"
@@ -16,7 +17,6 @@ export const GET = async (
     const categoriesService: ProductCategoryService = req.scope.resolve(
         "productCategoryService"
       )
-
     let category: ProductCategory = await categoriesService.retrieve(id);
 
       if (!category) {
