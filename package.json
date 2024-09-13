@@ -1,12 +1,12 @@
 {
-  "name": "medusa-plugin-categories",
-  "version": "1.0.6",
-  "description": "Product categories with thumbnails modul for Medusajs Admin-UI",
-  "author": "PetrH",
+  "name": "medusa-plugin-top-categories",
+  "version": "1.0.5",
+  "description": "Product categories with thumbnails and sorting by visits module for MedusaJS Admin-UI",
+  "author": "Dennis Soroka",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Petr-Hl/medusa-plugin-categories"
+    "url": "https://github.com/KreischerPanoptic/medusa-plugin-top-categories"
   },
   "keywords": [
     "typescript",
@@ -17,7 +17,9 @@
     "medusa-plugin-admin",
     "medusa-plugin-other",
     "medusa-plugin-category",
-    "medusa-plugin-category-images"
+    "medusa-plugin-top-categories",
+    "medusa-plugin-category-images",
+    "medusa-plugin-top-categories-images"
   ],
   "scripts": {
     "clean": "cross-env ./node_modules/.bin/rimraf dist",
@@ -29,7 +31,9 @@
   },
   "dependencies": {
     "react-icons": "^5.2.1",
-    "react-nestable": "^3.0.2"
+    "react-nestable": "^3.0.2",
+    "ua-en-translit": "^3.2.5",
+    "ua2latin": "^1.0.2"
   },
   "devDependencies": {
     "@medusajs/admin": "^7.1.15",
@@ -45,7 +49,7 @@
   "peerDependencies": {
     "@medusajs/icons": "^1.1.0",
     "@medusajs/medusa": ">= 1.18.0 < 2",
-    "@medusajs/ui": "^2.2.0",
+    "@medusajs/ui": "^1.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },

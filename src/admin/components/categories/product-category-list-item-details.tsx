@@ -99,7 +99,7 @@ function ProductCategoryListItemDetails({
                     <div className="flex w-14 h-12 items-center justify-center">
                       <img
                         src={item.metadata.thumbnailImageUrl as string}
-                        alt={`Thumbnail of ${item.name}`}
+                        alt={`Зображення ${item.name}`}
                         className="rounded-rounded max-w-14 max-h-12"
                       />
                     </div>
@@ -119,6 +119,9 @@ function ProductCategoryListItemDetails({
                       {item.description}
                     </div>
                   )}
+                  <div className="select-none text-xs text-ui-fg-muted min-w-16">
+                    {`(${item.metadata.visitsCount as number})`}
+                  </div>
                 </div>
               </div>
             </div>
@@ -128,29 +131,29 @@ function ProductCategoryListItemDetails({
                   <Tooltip
                     content={
                       item.is_internal
-                        ? `Category visibility is private`
-                        : "Category status is public"
+                        ? `Видимість категорії - Приватна`
+                        : "Видимість категорії - Публічна"
                     }
                   >
                     <StatusBadge
                       color={!item.is_internal ? "green" : "blue"}
                       className="border-none"
                     >
-                      {!item.is_internal ? "Public" : "Private"}
+                      {!item.is_internal ? "Публічна" : "Приватна"}
                     </StatusBadge>
                   </Tooltip>
                   <Tooltip
                     content={
                       item.is_active
-                        ? "Category status is active"
-                        : "Category status is inactive"
+                        ? "Статус категорії - Активна"
+                        : "Статус категорії - Неактивна"
                     }
                   >
                     <StatusBadge
                       color={item.is_active ? "green" : "red"}
                       className="border-none"
                     >
-                      {item.is_active ? "Active" : "Inactive"}
+                      {item.is_active ? "Активна" : "Неактивна"}
                     </StatusBadge>
                   </Tooltip>
                 </div>
@@ -161,7 +164,7 @@ function ProductCategoryListItemDetails({
               <Tooltip
                 content={
                   <>
-                    Add category item to
+                    Додати нову категорію до
                     <span className="text-grey-80 font-semibold">
                       {` "${item.name}"`}
                     </span>

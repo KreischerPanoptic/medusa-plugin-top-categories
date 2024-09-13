@@ -23,7 +23,7 @@ import MetadataForm, {
 } from "../shared/meatadata-form";
 import TreeCrumbs from "./utils/tree-crumbs";
 import { useQueryClient } from "@tanstack/react-query";
-
+const translit = require('ua-en-translit');
 // import type { ConfigModule } from "@medusajs/medusa";
 // import { getConfigFile } from "medusa-core-utils";
 
@@ -33,6 +33,7 @@ export type CategoryDetailsFormValues = {
   handle: string;
   description: string;
   thumbnail: string;
+  visits: number;
   media?: MediaFormType;
   is_active: "active" | "inactive";
   is_internal: "public" | "private";
@@ -42,22 +43,22 @@ export type CategoryDetailsFormValues = {
 
 const statuses = [
   {
-    label: "Active",
+    label: "Активна",
     value: "active",
   },
   {
-    label: "Inactive",
+    label: "Неактивна",
     value: "inactive",
   },
 ];
 
 const published = [
   {
-    label: "Public",
+    label: "Публічна",
     value: "public",
   },
   {
-    label: "Private",
+    label: "Приватна",
     value: "private",
   },
 ];
@@ -83,6 +84,7 @@ const getDefaultValues = (
       handle: "",
       description: "",
       thumbnail: "",
+      visits: 0,
       is_active: "active",
       is_internal: "public",
       media: {
@@ -98,6 +100,7 @@ const getDefaultValues = (
     handle: category?.handle,
     description: category?.description,
     thumbnail: (category?.metadata?.thumbnailImageUrl as string) || "",
+    visits: (category?.metadata?.visitsCount as number) || 0,
     is_active: category?.is_active ? "active" : "inactive",
     is_internal: category?.is_internal ? "private" : "public",
     media: {
@@ -157,8 +160,9 @@ const CategoryEditModal = ({
   // }, [form.watch("handle")]);
 
   const handlerSanitize = (value: string) => {
+    const transliterated = translit(value)
     setHandlePreview(
-      value
+      transliterated
         .replace(/[^a-zA-Z0-9 ]/g, "")
         .replace(/ /g, "-")
         .toLowerCase()
@@ -191,10 +195,12 @@ const CategoryEditModal = ({
     const metadataWithThumbnail = {
       ...getSubmittableMetadata(data.metadata),
       thumbnailImageUrl: uploadedImages[0]?.url || data.thumbnail || "",
+      visitsCount: parseInt(`${data.visits}`) || 0
     };
 
     const payload: AdminPostProductCategoriesCategoryReq & {
       thumbnail?: string;
+      visits: number;
     } = {
       name: data.name,
       description: data.description,
@@ -203,6 +209,7 @@ const CategoryEditModal = ({
         data.media.images[0]?.url ||
         data.thumbnail ||
         "",
+      visits: parseInt(`${data.visits}`) || 0,
       handle: handlePreview,
       is_active: data.is_active === "active",
       is_internal: data.is_internal === "private",
@@ -222,14 +229,14 @@ const CategoryEditModal = ({
 
       mutate(payloadNew, {
         onSuccess: async () => {
-          notify.success("Success", `Category ${payloadNew.name} was added`);
+          notify.success("Успіх", `Категорію ${payloadNew.name} створено`);
           onReset();
           await queryClient.invalidateQueries(adminProductCategoryKeys.lists());
         },
         onError: () => {
           notify.error(
-            "Error",
-            `Error occurred while adding category ${payloadNew.name}`
+            "Помилка",
+            `Під час створення категорії ${payloadNew.name} виникла помилка`
           );
         },
       });
@@ -240,14 +247,14 @@ const CategoryEditModal = ({
     // update existing category
     mutateAsync(payload, {
       onSuccess: async () => {
-        notify.success("Success", `Category ${payload.name} was updated`);
+        notify.success("Успіх", `Категорію ${payload.name} оновлено`);
         onReset();
         await queryClient.invalidateQueries(adminProductCategoryKeys.lists());
       },
       onError: () => {
         notify.error(
-          "Error",
-          `Error occurred while updating category ${payload.name}`
+          "Помилка",
+          `Під час оновлення категорії ${payload.name} виникла помилка`
         );
       },
     });
@@ -261,16 +268,16 @@ const CategoryEditModal = ({
           <Drawer.Header>
             <Drawer.Title>
               {createNew ? (
-                <>Add category{category ? ` to "${category.name}"` : ""}</>
+                <>Додати категорію{category ? ` до "${category.name}"` : ""}</>
               ) : (
-                <>Update category</>
+                <>Оновити категорію</>
               )}
               <div className="my-6">
                 <TreeCrumbs
                   nodes={categories}
                   currentNode={category}
                   showPlaceholder={createNew}
-                  placeholderText={form.watch("name") || "New"}
+                  placeholderText={form.watch("name") || "Нова"}
                 />
               </div>
             </Drawer.Title>
@@ -280,7 +287,7 @@ const CategoryEditModal = ({
               {!createNew && (
                 <div className="flex flex-col gap-y-2">
                   <Label htmlFor="thumbnail" className="text-ui-fg-subtle">
-                    Thumbnail
+                    Зображення
                   </Label>
                   {!form.watch("thumbnail") && (
                     <ImagesMediaForm
@@ -292,7 +299,7 @@ const CategoryEditModal = ({
                     <div className="max-w-[400px] h-auto">
                       <img
                         src={form.watch("thumbnail")}
-                        alt={`Thumbnail of ${form.watch("name")}`}
+                        alt={`Зображення для ${form.watch("name")}`}
                         className="rounded-rounded"
                       />
                     </div>
@@ -304,24 +311,24 @@ const CategoryEditModal = ({
                       disabled={isLoading}
                       className="ml-auto"
                     >
-                      <Trash /> Remove thumbnail
+                      <Trash /> Видалити зображення
                     </Button>
                   )}
                 </div>
               )}
               <div className="flex flex-col gap-y-2">
                 <Label htmlFor="name" className="text-ui-fg-subtle">
-                  Name
+                  Назва
                 </Label>
                 <Input
                   id="name"
-                  placeholder="Womanswear underwear"
+                  placeholder="Солодощі"
                   {...form.register("name")}
                 />
               </div>
               <div className="flex flex-col gap-y-2">
                 <Label htmlFor="handle" className="text-ui-fg-subtle">
-                  Handle
+                  Посилання
                   <span className="italic">{` (.../category/${handlePreview})`}</span>
                 </Label>
                 <Input
@@ -335,25 +342,25 @@ const CategoryEditModal = ({
                       handlerSanitize(form.getValues().name);
                     }
                   }}
-                  placeholder="womanswear-underwear"
+                  placeholder="solodoshi"
                   {...form.register("handle")}
                 />
               </div>
               <div className="flex flex-col gap-y-2">
                 <Label htmlFor="description" className="text-ui-fg-subtle">
-                  Description
+                  Опис
                 </Label>
                 <Input
                   id="description"
                   type="textarea"
-                  placeholder="A collection of womenswear underwear"
+                  placeholder="Корисні та смачні солодощі"
                   {...form.register("description")}
                 />
               </div>
               <div className="flex flex-row flex-wrap gap-x-4">
                 <div className="flex flex-col flex-1 gap-y-2">
                   <Label htmlFor="is_internal" className="text-ui-fg-subtle">
-                    Published Status
+                    Статус Публікації
                   </Label>
                   <Controller
                     name="is_internal"
@@ -362,7 +369,7 @@ const CategoryEditModal = ({
                     render={({ field: { onChange, ...other } }) => (
                       <Select {...other} onValueChange={onChange}>
                         <Select.Trigger>
-                          <Select.Value placeholder="Select public status" />
+                          <Select.Value placeholder="Оберіть статус публікації" />
                         </Select.Trigger>
                         <Select.Content>
                           {published.map((item) => (
@@ -377,7 +384,7 @@ const CategoryEditModal = ({
                 </div>
                 <div className="flex flex-col flex-1 gap-y-2">
                   <Label htmlFor="is_active" className="text-ui-fg-subtle">
-                    Active Status
+                    Статус Активності
                   </Label>
                   <Controller
                     name="is_active"
@@ -386,7 +393,7 @@ const CategoryEditModal = ({
                     render={({ field: { onChange, ...other } }) => (
                       <Select {...other} onValueChange={onChange}>
                         <Select.Trigger>
-                          <Select.Value placeholder="Select active status" />
+                          <Select.Value placeholder="Оберіть статус активності" />
                         </Select.Trigger>
                         <Select.Content>
                           {statuses.map((item) => (
@@ -401,12 +408,23 @@ const CategoryEditModal = ({
                 </div>
               </div>
               <div className="flex flex-col gap-y-2">
+                <Label htmlFor="visits" className="text-ui-fg-subtle">
+                  Перегляди
+                </Label>
+                <Input
+                  id="visits"
+                  type="number"
+                  placeholder="0"
+                  {...form.register("visits")}
+                />
+              </div>
+              <div className="flex flex-col gap-y-2">
                 <Label htmlFor="metadata" className="text-ui-fg-subtle">
-                  Metadata
+                  Метадані
                 </Label>
                 <MetadataForm
                   form={nestedForm(form, "metadata")}
-                  hiddenKeys={["thumbnailImageUrl"]}
+                  hiddenKeys={["thumbnailImageUrl", "visitsCount"]}
                 />
               </div>
             </div>
@@ -414,10 +432,10 @@ const CategoryEditModal = ({
           <Drawer.Footer>
             <Drawer.Close asChild>
               <Button variant="secondary" disabled={isLoading}>
-                Cancel
+                Скасувати
               </Button>
             </Drawer.Close>
-            <Button isLoading={isLoading || isSaving}>Save</Button>
+            <Button isLoading={isLoading || isSaving}>Зберегти</Button>
           </Drawer.Footer>
         </form>
       </Drawer.Content>

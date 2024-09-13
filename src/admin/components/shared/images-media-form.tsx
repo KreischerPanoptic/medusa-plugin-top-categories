@@ -73,9 +73,9 @@ const ImagesMediaForm = ({ form, type }: Props) => {
         <div className="mt-large">
           {type === "media" ? (
             <div className="mb-small">
-              <h2 className="inter-large-semibold mb-2xsmall">Uploads</h2>
+              <h2 className="inter-large-semibold mb-2xsmall">Завантаження</h2>
               <p className="inter-base-regular text-grey-50 mb-large">
-                <span>Select images to use in your market.</span>
+                <span>Оберіть зображення для використання у магазині.</span>
               </p>
             </div>
           ) : null}

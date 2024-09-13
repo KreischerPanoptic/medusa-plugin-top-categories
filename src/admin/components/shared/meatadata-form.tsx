@@ -124,10 +124,10 @@ const MetadataForm = ({ form, hiddenKeys }: MetadataProps) => {
           )}
         >
           <div>
-            <p>Key</p>
+            <p>Ключ</p>
           </div>
           <div className="">
-            <p>Value</p>
+            <p>Значення</p>
           </div>
         </div>
         <div className="divide-grey-20 divide-y">
@@ -190,10 +190,10 @@ const MetadataForm = ({ form, hiddenKeys }: MetadataProps) => {
           </div>
           <div>
             <p className="inter-small-regular text-[#AD5700]">
-              This entities metadata contains complex values that we currently
-              don&apos;t support editing through the admin UI. Due to this{" "}
-              {Object.keys(ignoredLength)} keys are currently not being
-              displayed. You can still edit these values using the API.
+              Ці записи у метаданних містять у собі складні значення які ми наразі
+              не підтримуємо для редагування через інтерфейс адміністратора. Через це {" "}
+              {Object.keys(ignoredLength)} ключей наразі не відібражаются.
+              Ви все ще можете редагувати ці значення через API.
             </p>
           </div>
         </div>
@@ -261,22 +261,22 @@ const MetadataRow = ({
           <div className="bg-grey-0 shadow-dropdown border-grey-20 rounded-rounded z-50 overflow-hidden border">
             <DropdownMenu.Item onClick={onInsertAbove} className={itemClasses}>
               <ArrowUpMini />
-              <span>Insert above</span>
+              <span>Вставити над</span>
             </DropdownMenu.Item>
             <DropdownMenu.Item onClick={onInsertBelow} className={itemClasses}>
               <ArrowDownMini />
-              <span>Insert below</span>
+              <span>Вставити под</span>
             </DropdownMenu.Item>
             <DropdownMenu.Item onClick={onDuplicate} className={itemClasses}>
               <SquareTwoStackMini />
-              <span>Duplicate</span>
+              <span>Клонувати</span>
             </DropdownMenu.Item>
             <DropdownMenu.Item
               onClick={onClearContents}
               className={itemClasses}
             >
               <XCircle />
-              <span>Clear contents</span>
+              <span>Очистити вміст</span>
             </DropdownMenu.Item>
             <DropdownMenu.Separator className="bg-grey-20 h-px w-full" />
             <DropdownMenu.Item
@@ -292,7 +292,7 @@ const MetadataRow = ({
               )}
             >
               <Trash />
-              <span>Delete</span>
+              <span>Видалити</span>
             </DropdownMenu.Item>
           </div>
         </DropdownMenu.Content>

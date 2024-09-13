@@ -22,7 +22,7 @@ Medusa admin UI modul with category thumbnail support, using metadata for store 
 1\. Run the following command in the directory of the Medusa backend:
 
 ```bash
-yarn add medusa-plugin-categories
+yarn add medusa-plugin-top-categories
 ```
 
 2\. In `medusa-config.js` add the following configuration at the end of the `plugins` array:
@@ -31,7 +31,7 @@ yarn add medusa-plugin-categories
 const plugins = [
   // ...
   {
-    resolve: `medusa-plugin-categories`,
+    resolve: `medusa-plugin-top-categories`,
     options: {
       enableUI: true,
     },

@@ -24,8 +24,7 @@ function ProductCategoriesEmptyState() {
   return (
     <div className="flex min-h-[600px] items-center justify-center">
       <p className="text-grey-40">
-        No product categories yet, use the above button to create your first
-        category.
+        Категорій не знайдено. Використайте кнопку зверху для створення першої категорії.
       </p>
     </div>
   );
@@ -37,8 +36,8 @@ function ProductCategoryErrorState() {
       <div className="flex items-center gap-x-2">
         <ExclamationCircle className="text-ui-fg-base" />
         <Text className="text-ui-fg-subtle">
-          An error occurred while loading profile details. Reload the page and
-          try again. If the issue persists, try again later.
+          Під час завантаження категорій виникла помилка. Перезавантажте сторінку
+          та спробуйте ще раз. Якщо помилка залишається - спробуйте пізніше.
         </Text>
       </div>
     </Container>
@@ -93,10 +92,10 @@ const CategoriesPage = ({ notify }: { notify: Notify }) => {
         <div className="flex justify-between align-top border-grey-20 border-b pb-4">
           <div>
             <h1 className="inter-xlarge-semibold text-grey-90">
-              Product Categories management
+              Керування Категоріями Продуктів
             </h1>
             <h3 className="inter-small-regular text-grey-50 pt-1.5">
-              Helps you to keep your products organized.
+              Тут ви можете керувати категоріями та тримати ваші продукти організованними.
             </h3>
           </div>
           <Button
@@ -105,7 +104,7 @@ const CategoriesPage = ({ notify }: { notify: Notify }) => {
             onClick={showCreateModal}
           >
             <PlusMini />
-            New root category
+            Нова головна категорія
           </Button>
         </div>
         <div className="flex flex-col justify-between mt-4 h-full w-full">
@@ -126,7 +125,7 @@ const CategoriesPage = ({ notify }: { notify: Notify }) => {
 
 export const config: RouteConfig = {
   link: {
-    label: "Product categories",
+    label: "Категорії продуктів",
     icon: BookOpen,
   },
 };

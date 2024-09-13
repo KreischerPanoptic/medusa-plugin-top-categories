@@ -63,9 +63,9 @@ function ProductCategoriesList(props: ProductCategoriesListProps) {
           parent_category_id: parentId,
           rank,
         });
-        notify.success("Success", "Successfully updated category tree");
+        notify.success("Успіх", "Успішно оновлено дерево категорій");
       } catch (e) {
-        notify.error("Error", "Failed to update category tree");
+        notify.error("Помилка", "Не вдалось оновити дерево категорій");
         enableError();
       } finally {
         await queryClient.invalidateQueries(adminProductCategoryKeys.lists());

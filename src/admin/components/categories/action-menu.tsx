@@ -31,13 +31,13 @@ export function CategoryActions({
 
   const { mutate } = useAdminDeleteProductCategory(category.id, {
     onSuccess: async () => {
-      notify.success("Success", "Category deleted successfully");
+      notify.success("Успіх", "Категорію видалено успішно");
       await queryClient.invalidateQueries(adminProductCategoryKeys.lists());
     },
     onError: (error) => {
       notify.error(
-        "Error",
-        `Error occurred while deleting category: "${error.message}"`
+        "Помилка",
+        `Під час видалення категорії виникла помилка: "${error.message}"`
       );
     },
   });
@@ -58,23 +58,58 @@ export function CategoryActions({
       },
       {
         onSuccess: () => {
-          notify.success("Success", "Category status changed successfully");
+          notify.success("Успіх", "Статус категорії змінено успішно");
         },
         onError: (error) => {
           notify.error(
-            "Error",
-            `Error occurred while changing category status: "${error.message}"`
+            "Помилка",
+            `Під час змінення статусу категорії виникла помилка: "${error.message}"`
           );
         },
       }
     );
   };
 
+  // const onClearVisits = async () => {
+  //   const confirmed = await prompt({
+  //     title: `Очистити перегляди категорії - ${category.name}`,
+  //     description: "Ви впевнені що хочете очистити перегляди цієї категорії?",
+  //     confirmText: "Очистити",
+  //   });
+
+  //   if (confirmed) {
+  //     updateCategory.mutate(
+  //       {
+  //         metadata: 
+  //         // is_active:
+  //         //   changeTarget === "is_active"
+  //         //     ? !category.is_active
+  //         //     : (category.is_active as boolean),
+  //         // is_internal:
+  //         //   changeTarget === "is_internal"
+  //         //     ? !category.is_internal
+  //         //     : (category.is_internal as boolean),
+  //       },
+  //       {
+  //         onSuccess: () => {
+  //           notify.success("Успіх", "Перегляди категорії очищено успішно");
+  //         },
+  //         onError: (error) => {
+  //           notify.error(
+  //             "Помилка",
+  //             `Під час очищення переглядів категорії виникла помилка: "${error.message}"`
+  //           );
+  //         },
+  //       }
+  //     );
+  //   }
+  // };
+
   const onDelete = async () => {
     const confirmed = await prompt({
-      title: `Deleting category ${category.name}`,
-      description: "Are you sure you want to delete this category?",
-      confirmText: "Delete",
+      title: `Видалення категорії - ${category.name}`,
+      description: "Ви впевнені що хочете видалити цю категорію?",
+      confirmText: "Видалити",
     });
 
     if (confirmed) {
@@ -92,7 +127,7 @@ export function CategoryActions({
       <DropdownMenu.Content>
         <DropdownMenu.Item className="gap-x-2" onClick={onEdit}>
           <PencilSquare className="text-ui-fg-subtle" />
-          Edit
+          Редагувати
         </DropdownMenu.Item>
         <DropdownMenu.Item
           className="gap-x-2"
@@ -101,13 +136,13 @@ export function CategoryActions({
           {category.is_internal && (
             <>
               <PublishIcon className="text-ui-fg-subtle" />
-              Publish
+              Опублікувати
             </>
           )}
           {!category.is_internal && (
             <>
               <UnpublishIcon className="text-ui-fg-subtle" />
-              Unpublish
+              Вилучити
             </>
           )}
         </DropdownMenu.Item>
@@ -118,20 +153,24 @@ export function CategoryActions({
           {!category.is_active && (
             <>
               <Bolt className="text-ui-fg-subtle" />
-              Activate
+              Активувати
             </>
           )}
           {category.is_active && (
             <>
               <XCircle className="text-ui-fg-subtle" />
-              Deactivate
+              Деактивувати
             </>
           )}
         </DropdownMenu.Item>
         <DropdownMenu.Separator />
+        {/* <DropdownMenu.Item className="gap-x-2" onClick={onClearVisits}>
+          <Trash className="text-ui-fg-subtle" />
+          Очистити перегляди
+        </DropdownMenu.Item> */}
         <DropdownMenu.Item className="gap-x-2" onClick={onDelete}>
           <Trash className="text-ui-fg-subtle" />
-          Delete
+          Видалити
         </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu>
