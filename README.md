@@ -45,9 +45,9 @@ const plugins = [
 
 ## Screenshots
 
-![image](https://github.com/user-attachments/assets/498f655d-a7eb-4862-bfda-45bfd8db8a66)
+![Main UI](https://github.com/user-attachments/assets/d1480519-a20d-4d27-ae2f-00801bf692a2)
 
-![image](https://github.com/user-attachments/assets/4a1092b2-a597-4f71-9c86-7f2165f0cf5c)
+![Edit Category UI](https://github.com/user-attachments/assets/8dc6f987-4691-41ef-bec3-f7560d98515b)
 
 ---
 
