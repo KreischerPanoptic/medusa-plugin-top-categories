@@ -30,7 +30,7 @@ export const GET = async (
        "productCategoryService"
     )
 
-    let results = await categoriesService.listAndCount({}, {take: parseInt(`${limit || '10'}`), skip: parseInt(`${offset || '0'}`), relations: [ `${expand}` || '']})
+    let results = expand ? await categoriesService.listAndCount({}, {take: parseInt(`${limit || '10'}`), skip: parseInt(`${offset || '0'}`), relations: [ `${expand}` ]}) : await categoriesService.listAndCount({}, {take: parseInt(`${limit || '10'}`), skip: parseInt(`${offset || '0'}`)})
     let categories = []
     results[0].forEach(element => {
         categories.push({

@@ -1,13 +1,15 @@
-# Product categories with thumbnails
+# Product categories with thumbnails and sorting by visits (top visited categories)
 
-Medusa admin UI modul with category thumbnail support, using metadata for store the information about thumbnail.
+Medusa admin UI modul with category thumbnail support and top by visits of category, using metadata for store the information about thumbnail and visits count. For now only available language of UI is Ukrainian, but I'm working on a translations.
 
 [Medusa Website](https://medusajs.com/) | [Medusa Repository](https://github.com/medusajs/medusa)
 
 ## Features
 
 - Product category thumbnail
-- Easy UI management of all product categories
+- Category visits count
+- REST API Endpoints for top categories
+- Easy UI management of all product categories (**WARNING:** only available language - **Ukrainian**, for now)
 
 ---
 
@@ -59,13 +61,13 @@ yarn dev
 
 In StoreFront project you can use the thumbnail by
 
-```bash
+```js
 category.metadata?.thumbnailImageUrl
 ```
 
 Example:
 
-```bash
+```jsx
 import { getCategoriesList } from "@lib/data"
 
 const { product_categories } = await getCategoriesList()
@@ -78,8 +80,55 @@ const thumbnails = productCategories.map((category) => (
   ))
 ```
 
+In StoreFront project you can use the visits count (if for any reason you would need too) by
+
+```js
+category.metadata?.visitsCount
+```
+
+Example:
+
+```jsx
+import { getCategoriesList } from "@lib/data"
+
+const { product_categories } = await getCategoriesList()
+
+const categoriesVisits = productCategories.map((category) => (
+    <p>
+      {`${((category.metadata?.visitsCount as number) || 0)}`}
+    </p>
+  ))
+```
+
+---
+
+## REST API Endpoints
+
+#### Store Endpoints:
+
+1. `/store/product-categories/visit/[id]`:
+  1.1. GET with mandatory query parameter of **ID** of category
+  1.2. Increments the visitsCounts of selected category and returns updated category
+2. `/store/product-categories/top`:
+  2.1. GET with optional query parameters of **limit**, **offset** and **expand**
+  2.2 Returns sorted by visitsCount categories, top of categories, can be expanded like regular categories endpoint. Returned categories further enriched by two new properties: **thumbnail** and **visits**
+3. `/store/product-categories/top/[id]`:
+  3.1. GET with optional query parameters of **limit**, **offset** and **expand**, and mandatory query parameter of **ID** of category
+  3.2. Increments the visitsCounts of selected category and returns updated category. Returned category further enriched by two new properties: **thumbnail** and **visits**
+4. `/store/product-categories/top/handle/[handle]`:
+  4.1. GET with optional query parameters of **limit**, **offset** and **expand**, and mandatory query parameter of **handle** of category
+  4.2. Increments the visitsCounts of selected category and returns updated category. Returned category further enriched by two new properties: **thumbnail** and **visits**
+
 ---
 
 ## Homepage
+
+- [Product categories with thumbnail and visits count](https://github.com/KreischerPanoptic/medusa-plugin-top-categories)
+
+---
+
+## Acknowlegments
+
+##### Homepage of original (forked from, many thanks to the author of original ❤️, if you like that fork give the author of original a star too ⭐)
 
 - [Product categories with thumbnail](https://github.com/Petr-Hl/medusa-plugin-categories)

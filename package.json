@@ -1,6 +1,6 @@
 {
   "name": "medusa-plugin-top-categories",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Product categories with thumbnails and sorting by visits module for MedusaJS Admin-UI",
   "author": "Dennis Soroka",
   "license": "MIT",
@@ -19,7 +19,9 @@
     "medusa-plugin-category",
     "medusa-plugin-top-categories",
     "medusa-plugin-category-images",
-    "medusa-plugin-top-categories-images"
+    "medusa-plugin-top-categories-images",
+    "medusa-plugin--category-visits-count",
+    "medusa-plugin--category-visits-count-images"
   ],
   "scripts": {
     "clean": "cross-env ./node_modules/.bin/rimraf dist",

@@ -1,4 +1,4 @@
-import { Drawer, Button, Text, Label, Input, Select } from "@medusajs/ui";
+import { Drawer, Button, Text, Label, Textarea, Input, Select } from "@medusajs/ui";
 import { useForm, Controller } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { Notify } from "../../types/notify";
@@ -107,7 +107,7 @@ const getDefaultValues = (
       images: [],
     },
     type: "thumbnail",
-    metadata: getMetadataFormValues(category?.metadata, ["thumbnailImageUrl"]),
+    metadata: getMetadataFormValues(category?.metadata, ["thumbnailImageUrl, visitsCount"]),
   };
 };
 
@@ -358,9 +358,10 @@ const CategoryEditModal = ({
                 <Label htmlFor="description" className="text-ui-fg-subtle">
                   Опис
                 </Label>
-                <Input
+                <Textarea
                   id="description"
                   type="textarea"
+                  rows={5}
                   placeholder="Корисні та смачні солодощі"
                   {...form.register("description")}
                 />

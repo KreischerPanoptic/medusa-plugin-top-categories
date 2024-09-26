@@ -20,7 +20,7 @@ export const GET = async (
     const categoriesService: ProductCategoryService = req.scope.resolve(
         "productCategoryService"
       )
-    let result: [ProductCategory[],number] = await categoriesService.listAndCount({id: id}, {take: 1, skip: 0, relations: [ `${expand}` || '']});
+    let result: [ProductCategory[],number] = expand ? await categoriesService.listAndCount({id: id}, {take: 1, skip: 0, relations: [ `${expand}`]}) : await categoriesService.listAndCount({id: id}, {take: 1, skip: 0});
 
       if (result[1]<=0) {
         throw new MedusaError(
