@@ -107,17 +107,17 @@ const categoriesVisits = productCategories.map((category) => (
 #### Store Endpoints:
 
 1. `/store/product-categories/visit/[id]`:
-  1.1. GET with mandatory query parameter of **ID** of category
-  1.2. Increments the visitsCounts of selected category and returns updated category
+- GET with mandatory query parameter of **ID** of category
+- Increments the visitsCounts of selected category and returns updated category
 2. `/store/product-categories/top`:
-  2.1. GET with optional query parameters of **limit**, **offset** and **expand**
-  2.2 Returns sorted by visitsCount categories, top of categories, can be expanded like regular categories endpoint. Returned categories further enriched by two new properties: **thumbnail** and **visits**
+- GET with optional query parameters of **limit**, **offset** and **expand**
+- Returns sorted by visitsCount categories, top of categories, can be expanded like regular categories endpoint. Returned categories further enriched by two new properties: **thumbnail** and **visits**
 3. `/store/product-categories/top/[id]`:
-  3.1. GET with optional query parameters of **limit**, **offset** and **expand**, and mandatory query parameter of **ID** of category
-  3.2. Increments the visitsCounts of selected category and returns updated category. Returned category further enriched by two new properties: **thumbnail** and **visits**
+- GET with optional query parameters of **limit**, **offset** and **expand**, and mandatory query parameter of **ID** of category
+- Increments the visitsCounts of selected category and returns updated category. Returned category further enriched by two new properties: **thumbnail** and **visits**
 4. `/store/product-categories/top/handle/[handle]`:
-  4.1. GET with optional query parameters of **limit**, **offset** and **expand**, and mandatory query parameter of **handle** of category
-  4.2. Increments the visitsCounts of selected category and returns updated category. Returned category further enriched by two new properties: **thumbnail** and **visits**
+- GET with optional query parameters of **limit**, **offset** and **expand**, and mandatory query parameter of **handle** of category
+- Increments the visitsCounts of selected category and returns updated category. Returned category further enriched by two new properties: **thumbnail** and **visits**
 
 ---
 
