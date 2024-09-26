@@ -1,6 +1,6 @@
 {
   "name": "medusa-plugin-top-categories",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Product categories with thumbnails and sorting by visits module for MedusaJS Admin-UI",
   "author": "Dennis Soroka",
   "license": "MIT",

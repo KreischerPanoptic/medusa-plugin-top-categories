@@ -107,7 +107,7 @@ const getDefaultValues = (
       images: [],
     },
     type: "thumbnail",
-    metadata: getMetadataFormValues(category?.metadata, ["thumbnailImageUrl, visitsCount"]),
+    metadata: getMetadataFormValues(category?.metadata, ["thumbnailImageUrl", "visitsCount"]),
   };
 };
 

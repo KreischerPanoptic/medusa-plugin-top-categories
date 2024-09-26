@@ -38,7 +38,7 @@ export const GET = async (
         metadata: updateMetadata
       })
 
-      result = await categoriesService.listAndCount({handle: handle}, {take: 1, skip: 0, relations: [ `${expand}` || '']});
+      result = expand ? await categoriesService.listAndCount({handle: handle}, {take: 1, skip: 0, relations: [ `${expand}` || '']}) : await categoriesService.listAndCount({handle: handle}, {take: 1, skip: 0});
       category = result[0][0]
 
       let categoryResponse = {
