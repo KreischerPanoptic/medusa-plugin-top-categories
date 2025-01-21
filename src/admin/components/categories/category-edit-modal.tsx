@@ -360,7 +360,6 @@ const CategoryEditModal = ({
                 </Label>
                 <Textarea
                   id="description"
-                  type="textarea"
                   rows={5}
                   placeholder="Корисні та смачні солодощі"
                   {...form.register("description")}

@@ -3,7 +3,7 @@ import {
   adminProductCategoryKeys,
 } from "medusa-react";
 
-import { Button, Container, Text, useToggleState } from "@medusajs/ui";
+import { Button, Container, Text, useToggleState} from "@medusajs/ui";
 import ProductCategoriesList from "../../components/categories/product-categories-list";
 import { RouteConfig } from "@medusajs/admin";
 import { Notify } from "../../types/notify";
@@ -16,6 +16,8 @@ import {
 } from "@medusajs/icons";
 import CategoryEditModal from "../../components/categories/category-edit-modal";
 import { useQueryClient } from "@tanstack/react-query";
+
+import { useTranslation } from "react-i18next";
 
 /**
  * Product categories empty state placeholder.
@@ -48,6 +50,8 @@ function ProductCategoryErrorState() {
  * Product category index page container.
  */
 const CategoriesPage = ({ notify }: { notify: Notify }) => {
+  const {t} = useTranslation()
+
   const {
     state: isCreateModalVisible,
     open: showCreateModal,

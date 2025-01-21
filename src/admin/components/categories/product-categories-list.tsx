@@ -10,7 +10,7 @@ import { AiOutlineDrag } from "react-icons/ai";
 import { useToggleState, clx } from "@medusajs/ui";
 import { PlaySolid } from "@medusajs/icons";
 import { ProductCategory } from "@medusajs/medusa";
-import { adminProductCategoryKeys, useMedusa } from "medusa-react";
+import { adminProductCategoryKeys, useAdminUpdateProductCategory, useMedusa } from "medusa-react";
 
 import ProductCategoryListItemDetails from "./product-category-list-item-details";
 
@@ -32,6 +32,13 @@ function ProductCategoriesList(props: ProductCategoriesListProps) {
   const [isError, enableError, disableError] = useToggleState(false);
   const { categories, notify } = props;
   const flattenedCategories = flattenCategoryTree(categories);
+
+  const updateMutations = new Map(
+    flattenedCategories.map(category => [
+      category.id,
+      useAdminUpdateProductCategory(category.id)
+    ])
+  );
 
   const onItemDrop = useCallback(
     async (params: {
@@ -58,21 +65,38 @@ function ProductCategoriesList(props: ProductCategoriesListProps) {
 
       try {
         disableError();
-
-        await client.admin.productCategories.update(dragItem.id, {
+        
+        const mutation = updateMutations.get(dragItem.id);
+        if (!mutation) {
+          throw new Error("Failed to find mutation for category");
+        }
+        //@ts-ignore
+        await mutation.mutateAsync({
           parent_category_id: parentId,
           rank,
+          metadata: {
+            ...dragItem.metadata,
+            visitsCount: dragItem.metadata?.visitsCount || 0
+          },
+          name: dragItem.name,
+          handle: dragItem.handle,
+          ...(dragItem.is_active !== undefined && { is_active: Boolean(dragItem.is_active) === true }),
+          ...(dragItem.is_internal !== undefined && { is_internal: Boolean(dragItem.is_internal) === true }),
+          description: dragItem.description || "",
+          visits: dragItem.metadata?.visitsCount || 0
         });
+
         notify.success("Успіх", "Успішно оновлено дерево категорій");
+        await queryClient.invalidateQueries(adminProductCategoryKeys.lists());
       } catch (e) {
+        console.error("Category update error:", e);
         notify.error("Помилка", "Не вдалось оновити дерево категорій");
         enableError();
       } finally {
-        await queryClient.invalidateQueries(adminProductCategoryKeys.lists());
         disableUpdating();
       }
     },
-    []
+    [queryClient, notify, enableError, disableError, enableUpdating, disableUpdating, updateMutations]
   );
 
   const NestableList = (
