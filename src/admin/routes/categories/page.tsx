@@ -92,7 +92,7 @@ const CategoriesPage = ({ notify }: { notify: Notify }) => {
           notify={notify}
         />
       )}
-      <Container className="flex flex-col min-h-[640px] grow h-full w-full">
+      <Container className="flex flex-col min-h-[640px] grow h-auto w-full">
         <div className="flex justify-between align-top border-grey-20 border-b pb-4">
           <div>
             <h1 className="inter-xlarge-semibold text-grey-90">
