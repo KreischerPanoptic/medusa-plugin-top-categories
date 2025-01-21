@@ -151,30 +151,31 @@ const CategoryEditModal = ({
     }
   }, [category]);
 
-  // useEffect(() => {
-  //   if (form.watch("handle")) {
-  //     setHandlePreview(
-  //       encodeURI(form.watch("handle").replace(/ /g, "-").toLowerCase())
-  //     );
-  //   }
-  // }, [form.watch("handle")]);
-
   const handlerSanitize = (value: string) => {
-    const transliterated = translit(value)
+    const transliterated = translit(value);
     setHandlePreview(
       transliterated
-        .replace(/[^a-zA-Z0-9 ]/g, "")
-        .replace(/ /g, "-")
+        // First, replace spaces with hyphens
+        .replace(/ +/g, '-')
+        // Then remove all special characters except hyphens
+        .replace(/[^a-zA-Z0-9-]/g, '')
+        // Replace multiple consecutive hyphens with a single hyphen
+        .replace(/-+/g, '-')
+        // Convert to lowercase
         .toLowerCase()
+        // Remove leading and trailing hyphens
+        .replace(/^-+|-+$/g, '')
     );
   };
-
+  
   const handlerSanitizeReturn = (value: string): string => {
-    const transliterated = translit(value)
+    const transliterated = translit(value);
     return transliterated
-        .replace(/[^a-zA-Z0-9 ]/g, "")
-        .replace(/ /g, "-")
-        .toLowerCase()
+      .replace(/ +/g, '-')
+      .replace(/[^a-zA-Z0-9-]/g, '')
+      .replace(/-+/g, '-')
+      .toLowerCase()
+      .replace(/^-+|-+$/g, '');
   };
 
   const onReset = () => {
